@@ -5,7 +5,7 @@ class MessageList extends Component {
   render() {
     return (
     	<div id="message-list">
-    	  {Message()}
+    	  <Message/>
   		</div>
     );
   }
