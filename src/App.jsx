@@ -26,11 +26,21 @@ class App extends Component {
   }
 
   handler = event => {
-                if(event.key == 'Enter') { 
-                	console.log(event.target.value);
-                   // this.setState({ value: event.target.value })
-                } 
-            }
+  	function generateRandomString() {
+	    let chars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+	    let result = '';
+	    for (let i = 0; i < 5; i++) {
+	        result += chars[Math.floor(Math.random() * chars.length)];
+	    }
+	    return (result);
+  	}
+    if(event.key == 'Enter') { 
+    	const newMessage = {id: generateRandomString(), username: this.state.currentUser.name, content: event.target.value};
+    	const messages = this.state.messages.concat(newMessage)
+    	this.setState({messages: messages})
+    	event.target.value = "";
+    } 
+  }
 
 
   render() {
