@@ -8,18 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
     	currentUser: {name: "Bob"},
-  		messages: [
-		    {
-		      username: "Bob",
-		      content: "Has anyone seen my marbles?",
-		      id: "45ret"
-		    },
-		    {
-		      username: "Anonymous",
-		      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-		      id: "qucos"
-		    }
-  		]
+  		messages: []
   	};
 
   	this.handler = this.handler.bind(this)
@@ -33,6 +22,13 @@ class App extends Component {
 	};
   }
 
+  userhandle = event => {
+    if(event.key == 'Enter') { 
+    	console.log(this.state.currentUser)
+    	this.setState({currentUser:{name: event.target.value}})
+    } 
+  }
+
   handler = event => {
   	function generateRandomString() {
 	    let chars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -43,13 +39,16 @@ class App extends Component {
 	    return (result);
   	}
     if(event.key == 'Enter') { 
-    	const newMessage = {id: generateRandomString(), username: this.state.currentUser.name, content: event.target.value};
+    	const newMessage = {username: this.state.currentUser.name, content: event.target.value};
     	const messages = this.state.messages.concat(newMessage)
-    	this.socket.send(`Message ID: ${newMessage.id}, user ${newMessage.username} said ${newMessage.content}`);
+    	this.socket.send(`user ${newMessage.username} said ${newMessage.content}`);
     	this.setState({messages: messages})
     	event.target.value = "";
     } 
   }
+
+
+ 
 
 
   render() {
@@ -59,7 +58,7 @@ class App extends Component {
 		  <a href="/" className="navbar-brand">Chatty</a>
   		</nav>
   		<MessageList messages={this.state.messages}/>
-    	<ChatBar currentUser={this.state.currentUser.name} handler = {this.handler}/>
+    	<ChatBar currentUser={this.state.currentUser.name} userhandle={this.userhandle} handler={this.handler}/>
       </div>
     );
   }
