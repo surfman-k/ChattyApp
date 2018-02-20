@@ -25,7 +25,7 @@ class App extends Component {
   userhandle = event => {
     if(event.key == 'Enter') { 
     	console.log(this.state.currentUser)
-    	this.setState({currentUser:{name: event.target.value}})
+    	this.setState({currentUser:{name: (event.target.value) ? (event.target.value) : "Anonymous"}})
     } 
   }
 
@@ -46,9 +46,6 @@ class App extends Component {
     	event.target.value = "";
     } 
   }
-
-
- 
 
 
   render() {
