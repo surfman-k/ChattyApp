@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
     	currentUser: {name: "Anonymous"},
   		messages: [],
+  		clientsConnected: 0
   	};
 
   	this.handler = this.handler.bind(this)
@@ -34,6 +35,13 @@ class App extends Component {
   			const messages = this.state.messages.concat(newMess)
   			this.setState({messages: messages})
   		}
+  		else if(newMess[0].type === "Client connected"){
+  			this.setState({clientsConnected: newMess[0].count})
+  		}
+  		else if(newMess[0].type === "Client disconnected"){
+  			this.setState({clientsConnected: newMess[0].count})
+  		}
+
 	}.bind(this)
   }
 
@@ -58,6 +66,7 @@ class App extends Component {
    	  <div>
    	    <nav className="navbar">
 		  <a href="/" className="navbar-brand">Chatty</a>
+		  <span className="usercount">{this.state.clientsConnected} users online</span>
   		</nav>
   		<MessageList messages={this.state.messages}/>
     	<ChatBar currentUser={this.state.currentUser.name} userhandle={this.userhandle} handler={this.handler}/>
