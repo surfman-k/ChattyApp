@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
+
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
     	currentUser: {name: "Anonymous"},
-  		messages: []
+  		messages: [],
   	};
 
   	this.handler = this.handler.bind(this)
@@ -24,20 +25,29 @@ class App extends Component {
 	this.socket.onmessage = function (event) {
 		let newMess = [JSON.parse(event.data)];
   		console.log(newMess[0]);
-  		const messages = this.state.messages.concat(newMess)
-  		this.setState({messages: messages})
+  		if(newMess[0].type === "incomingMessage"){
+  			const messages = this.state.messages.concat(newMess)
+  			this.setState({messages: messages})
+  		}
+  		else if(newMess[0].type === "incomingNotification"){
+  			console.log(newMess[0])
+  			const messages = this.state.messages.concat(newMess)
+  			this.setState({messages: messages})
+  		}
 	}.bind(this)
   }
 
   userhandle = event => {
     if(event.key == 'Enter') { 
+    	const newNotification = {username: this.state.currentUser.name, content: event.target.value, type: "postNotification"};
+    	this.socket.send(JSON.stringify(newNotification));
     	this.setState({currentUser:{name: (event.target.value) ? (event.target.value) : "Anonymous"}})
     } 
   }
 
   handler = event => {
     if(event.key == 'Enter') { 
-    	const newMessage = {username: this.state.currentUser.name, content: event.target.value};
+    	const newMessage = {username: this.state.currentUser.name, content: event.target.value, type: "postMessage"};
     	this.socket.send(JSON.stringify(newMessage));
     	event.target.value = "";
     } 
