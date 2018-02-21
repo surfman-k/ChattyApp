@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
     	currentUser: {name: "Anonymous"},
   		messages: [],
-  		clientsConnected: 0
+  		clientsConnected: 0,
+  		currentColor: null
   	};
 
   	this.handler = this.handler.bind(this)
@@ -31,12 +32,12 @@ class App extends Component {
   			this.setState({messages: messages})
   		}
   		else if(newMess[0].type === "incomingNotification"){
-  			console.log(newMess[0])
   			const messages = this.state.messages.concat(newMess)
   			this.setState({messages: messages})
   		}
   		else if(newMess[0].type === "Client connected"){
   			this.setState({clientsConnected: newMess[0].count})
+  			this.setState({currentColor: newMess[0].color})
   		}
   		else if(newMess[0].type === "Client disconnected"){
   			this.setState({clientsConnected: newMess[0].count})
@@ -55,7 +56,7 @@ class App extends Component {
 
   handler = event => {
     if(event.key == 'Enter') { 
-    	const newMessage = {username: this.state.currentUser.name, content: event.target.value, type: "postMessage"};
+    	const newMessage = {username: this.state.currentUser.name, color: this.state.currentColor, content: event.target.value, type: "postMessage"};
     	this.socket.send(JSON.stringify(newMessage));
     	event.target.value = "";
     } 
@@ -68,7 +69,7 @@ class App extends Component {
 		  <a href="/" className="navbar-brand">Chatty</a>
 		  <span className="usercount">{this.state.clientsConnected} users online</span>
   		</nav>
-  		<MessageList messages={this.state.messages}/>
+  		<MessageList messages={this.state.messages} color={this.state.currentColor}/>
     	<ChatBar currentUser={this.state.currentUser.name} userhandle={this.userhandle} handler={this.handler}/>
       </div>
     );
