@@ -8,10 +8,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    	currentUser: {name: "Anonymous"},
+    	currentUser: {name: "Anonymous", color: ('#'+(Math.random()*0xFFFFFF<<0).toString(16))},
   		messages: [],
-  		clientsConnected: 0,
-  		currentColor: null
+  		clientsConnected: 0
   	};
 
   	this.handler = this.handler.bind(this)
@@ -37,7 +36,6 @@ class App extends Component {
   		}
   		else if(newMess[0].type === "Client connected"){
   			this.setState({clientsConnected: newMess[0].count})
-  			this.setState({currentColor: newMess[0].color})
   		}
   		else if(newMess[0].type === "Client disconnected"){
   			this.setState({clientsConnected: newMess[0].count})
@@ -50,13 +48,13 @@ class App extends Component {
     if(event.key == 'Enter' && event.target.value) { 
     	const newNotification = {username: this.state.currentUser.name, content: event.target.value, type: "postNotification"};
     	this.socket.send(JSON.stringify(newNotification));
-    	this.setState({currentUser:{name: (event.target.value) ? (event.target.value) : "Anonymous"}})
+    	this.setState({currentUser:{name: (event.target.value) ? (event.target.value) : "Anonymous", color: this.state.currentUser.color}})
     } 
   }
 
   handler = event => {
     if(event.key == 'Enter' && event.target.value) { 
-    	const newMessage = {username: this.state.currentUser.name, color: this.state.currentColor, content: event.target.value, type: "postMessage"};
+    	const newMessage = {username: this.state.currentUser.name, color: this.state.currentUser.color, content: event.target.value, type: "postMessage"};
     	this.socket.send(JSON.stringify(newMessage));
     	event.target.value = "";
     } 
@@ -69,7 +67,7 @@ class App extends Component {
 		  <a href="/" className="navbar-brand">Chatty</a>
 		  <span className="usercount">{this.state.clientsConnected} users online</span>
   		</nav>
-  		<MessageList messages={this.state.messages} color={this.state.currentColor}/>
+  		<MessageList messages={this.state.messages} color={this.state.currentUser.color}/>
     	<ChatBar currentUser={this.state.currentUser.name} userhandle={this.userhandle} handler={this.handler}/>
       </div>
     );

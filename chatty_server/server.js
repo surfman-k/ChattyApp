@@ -32,7 +32,7 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   counter += 1;
   console.log(counter);
-  	wss.broadcast(JSON.stringify({type: "Client connected", count: counter, color: ('#'+(Math.random()*0xFFFFFF<<0).toString(16))}));
+  	wss.broadcast(JSON.stringify({type: "Client connected", count: counter}));
 
   ws.on('message', function incoming(message) {
   	let mess = JSON.parse(message);
