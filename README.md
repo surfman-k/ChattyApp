@@ -1,45 +1,40 @@
-React Boilerplate
+Chatty App
 =====================
 
-A minimal and light dev environment for ReactJS.
+Single-page chat app built with ReactJS
 
-### Usage
-
-Clone the boilerplate and create your own git repo.
+## Getting Started
 
 ```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
+1. Install dependencies: `npm i` in both the main project folder and the chatty_server folder.
+2. Open two terminal windows.
+3. In the main project folder run `npm start`
+4. In the chatty_server folder run `node server.js`
+5. Visit `http://localhost:3000/` on as many browser windows as you want.
 ```
 
-Install the dependencies and start the server.
+## Dependencies
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+  *  Babel-core: 6.23.1,
+  *  Babel-loader: 6.3.1,
+  *  Babel-preset-es2015: 6.22.0,
+  *  Babel-preset-react: 6.23.0,
+  *  Babel-preset-stage-0: 6.22.0,
+  *  Css-loader: 0.26.1,
+  *  Eslint: 3.15.0,
+  *  Eslint-plugin-react: 6.9.0,
+  *  Express: 4.16.2,
+  *  Node-sass: 4.5.0,
+  *  React: 15.4.2,
+  *  React-dom: 15.4.2
+  *  Sass-loader: 6.0.0,
+  *  Sockjs-client: ^1.1.2,
+  *  Style-loader: 0.13.1,
+  *  UUID: 4.16.2,
+  *  Webpack: 2.2.1,
+  *  Webpack-dev-server: 2.3.0
+  *  WS: 4.0.0,
 
-### Static Files
+## Screenshots
 
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+!["Screenshot of Page"](https://github.com/surfman-k/ChattyApp/blob/master/screenshots/Screen%20Shot%202018-02-22%20at%201.04.48%20PM.png)
