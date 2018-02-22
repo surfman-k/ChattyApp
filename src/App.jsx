@@ -25,18 +25,21 @@ class App extends Component {
 
 	this.socket.onmessage = function (event) {
 		let newMess = [JSON.parse(event.data)];
-  		console.log(newMess[0]);
+      //New message gets added to state message array as a message
   		if(newMess[0].type === "incomingMessage"){
   			const messages = this.state.messages.concat(newMess)
   			this.setState({messages: messages})
   		}
+      //Change of username gets added to state message array as a notification
   		else if(newMess[0].type === "incomingNotification"){
   			const messages = this.state.messages.concat(newMess)
   			this.setState({messages: messages})
   		}
+      //Handles user counter when a new user connects
   		else if(newMess[0].type === "Client connected"){
   			this.setState({clientsConnected: newMess[0].count})
   		}
+      //Handles user counter when a new user disconnects
   		else if(newMess[0].type === "Client disconnected"){
   			this.setState({clientsConnected: newMess[0].count})
   		}
@@ -44,6 +47,7 @@ class App extends Component {
 	}.bind(this)
   }
 
+  //handles when user changes username and presses enter
   userhandle = event => {
     if(event.key == 'Enter' && event.target.value) { 
     	const newNotification = {username: this.state.currentUser.name, content: event.target.value, type: "postNotification"};
@@ -52,6 +56,7 @@ class App extends Component {
     } 
   }
 
+  //handles when user writes new message and presses enter
   handler = event => {
     if(event.key == 'Enter' && event.target.value) { 
     	const newMessage = {username: this.state.currentUser.name, color: this.state.currentUser.color, content: event.target.value, type: "postMessage"};

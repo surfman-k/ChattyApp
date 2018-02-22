@@ -5,6 +5,7 @@ const uuidv4 = require('uuid/v4');
 // Set the port to 3001
 const PORT = 3001;
 
+
 let counter = 0;
 
 // Create a new express server
@@ -16,10 +17,7 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer.Server({ server });
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
-
+//Function that will send data to all clients connected to server
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === SocketServer.OPEN) {
@@ -28,12 +26,17 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
+// Set up a callback that will run when a client connects to the server
+// When a client connects they are assigned a socket, represented by
+// the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
   counter += 1;
   console.log(counter);
   	wss.broadcast(JSON.stringify({type: "Client connected", count: counter}));
 
+  //Server side handling of incoming messages and user-change notifications
+  //server also creates unique keys using UUID
   ws.on('message', function incoming(message) {
   	let mess = JSON.parse(message);
   	console.log(mess);
