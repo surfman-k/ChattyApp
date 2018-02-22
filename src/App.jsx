@@ -47,7 +47,7 @@ class App extends Component {
   }
 
   userhandle = event => {
-    if(event.key == 'Enter') { 
+    if(event.key == 'Enter' && event.target.value) { 
     	const newNotification = {username: this.state.currentUser.name, content: event.target.value, type: "postNotification"};
     	this.socket.send(JSON.stringify(newNotification));
     	this.setState({currentUser:{name: (event.target.value) ? (event.target.value) : "Anonymous"}})
@@ -55,7 +55,7 @@ class App extends Component {
   }
 
   handler = event => {
-    if(event.key == 'Enter') { 
+    if(event.key == 'Enter' && event.target.value) { 
     	const newMessage = {username: this.state.currentUser.name, color: this.state.currentColor, content: event.target.value, type: "postMessage"};
     	this.socket.send(JSON.stringify(newMessage));
     	event.target.value = "";
